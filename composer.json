@@ -1,0 +1,7 @@
+{
+    "require": {
+        "bref/bref": "^2.0",
+        "aws/aws-sdk-php": "^3.271",
+        "bref/laravel-bridge": "^2.1"
+    }
+}

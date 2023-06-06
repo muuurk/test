@@ -1,0 +1,42 @@
+service: app
+
+provider:
+    name: aws
+    region: eu-central-1
+
+plugins:
+  - ./vendor/bref/bref
+  - serverless-lift
+functions:
+    api:
+        handler: index.php
+        description: ''
+        runtime: php-81-fpm
+        timeout: 28 # in seconds (API Gateway has a timeout of 29 seconds)
+        events:
+            -   httpApi: '*'
+
+        vpc:
+            securityGroupIds:
+                - sg-00504b6016690f16a
+            subnetIds:
+                - subnet-0c41ea703000fae4c
+                - subnet-00c089f3e8f772013
+                - subnet-07b21ec667e6c76a4
+
+
+# Exclude files from deployment
+package:
+    patterns:
+        - '!node_modules/**'
+        - '!tests/**'
+
+constructs:
+  website:
+    type: server-side-website
+    assets:
+      '/js/*': assets/js
+      '/css/*': assets/css
+      '/favicon.ico': assets/favicon.ico
+      '/robots.txt': assets/robots.txt
+      # add here any file or directory that needs to be served from S3
